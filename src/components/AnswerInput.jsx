@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+﻿import { useEffect, useRef } from "react";
 
 function AnswerInput({
   value,
@@ -9,7 +9,8 @@ function AnswerInput({
   minCharacters = 50,
 }) {
   const ref = useRef(null);
-  const isValid = value.trim().length >= minCharacters;
+  const count = value.trim().length;
+  const isValid = count >= minCharacters;
 
   useEffect(() => {
     if (!ref.current) return;
@@ -18,9 +19,9 @@ function AnswerInput({
   }, [value]);
 
   return (
-    <div className="glass-panel space-y-4 p-6 md:p-8">
-      <label className="block text-sm font-medium text-slate-200" htmlFor="answer">
-        Your answer
+    <div className="game-card space-y-5 p-6 md:p-8">
+      <label className="section-label block" htmlFor="answer">
+        ? Your Move
       </label>
       <textarea
         id="answer"
@@ -28,34 +29,38 @@ function AnswerInput({
         rows={5}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        placeholder="Write your answer as if you're in the real interview. Use structure, examples, and trade-offs."
-        className="min-h-[140px] w-full resize-none rounded-2xl border border-white/10 bg-slate-950/70 px-4 py-3 text-slate-100 outline-none transition focus:border-indigo-400/60"
+        placeholder="Type your answer, adventurer..."
+        className="min-h-[130px] w-full resize-y rounded-[8px] border-2 px-4 py-4 text-[15px] outline-none transition"
+        style={{
+          background: "var(--bg-deep)",
+          borderColor: "var(--purple-muted)",
+          color: "var(--text-lavender)",
+        }}
+        onFocus={(event) => {
+          event.target.style.borderColor = "var(--pink-main)";
+          event.target.style.boxShadow = "0 0 0 3px var(--pink-glow)";
+        }}
+        onBlur={(event) => {
+          event.target.style.borderColor = "var(--purple-muted)";
+          event.target.style.boxShadow = "none";
+        }}
       />
 
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div className="space-y-1 text-sm text-slate-400">
-          <div>{value.trim().length} characters</div>
-          {!isValid ? (
-            <div className="text-amber-300">Please write at least {minCharacters} characters.</div>
-          ) : null}
-        </div>
+      <div className="text-right bubble-heading text-[12px]" style={{ color: isValid ? "var(--success)" : "var(--danger)" }}>
+        {isValid ? `${count} chars` : `Need ${minCharacters} chars to submit`}
+      </div>
 
-        <div className="flex gap-3">
-          <button type="button" onClick={onSkip} className="ghost-button" disabled={disabled}>
-            Skip
-          </button>
-          <button
-            type="button"
-            onClick={onSubmit}
-            disabled={!isValid || disabled}
-            className="primary-button"
-          >
-            Submit Answer
-          </button>
-        </div>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <button type="button" onClick={onSubmit} disabled={!isValid || disabled} className="btn-primary w-full sm:w-auto">
+          ?? Submit
+        </button>
+        <button type="button" onClick={onSkip} className="btn-ghost self-end sm:self-auto" disabled={disabled}>
+          ??? Skip Round
+        </button>
       </div>
     </div>
   );
 }
 
 export default AnswerInput;
+

@@ -1,4 +1,4 @@
-import { AlertCircle, RotateCcw } from "lucide-react";
+﻿import { AlertCircle, RotateCcw } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -146,7 +146,7 @@ function InterviewPage() {
       setRemainingTime(QUESTION_SECONDS);
       setStage("interview");
     } catch (err) {
-      toast.error(err.message || "Unable to generate questions.");
+      toast.error(err.message || "Unable to generate quest rounds.");
     }
   };
 
@@ -161,7 +161,7 @@ function InterviewPage() {
       const parsed = parseScoring(raw);
       setFeedback(parsed);
     } catch (err) {
-      toast.error(err.message || "Unable to score your answer.");
+      toast.error(err.message || "Unable to score your round.");
     }
   };
 
@@ -237,10 +237,10 @@ function InterviewPage() {
 
   if (stage === "setup") {
     return (
-      <section className="mx-auto max-w-7xl px-6 py-12">
+      <section className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-10">
         <RoleSelector config={config} onChange={handleConfigChange} onStart={handleStart} loading={loading} />
         {error ? (
-          <div className="mx-auto mt-6 flex max-w-2xl items-start gap-3 rounded-2xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-100">
+          <div className="game-card mx-auto mt-6 flex max-w-2xl items-start gap-3 px-4 py-3 text-sm" style={{ borderColor: "var(--danger)", color: "var(--danger)" }}>
             <AlertCircle className="mt-0.5 h-4 w-4" />
             <span>{error}</span>
           </div>
@@ -250,54 +250,40 @@ function InterviewPage() {
   }
 
   return (
-    <section className="mx-auto max-w-4xl space-y-6 px-6 py-12">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="space-y-1">
-          <div className="eyebrow">Live interview</div>
-          <h1 className="text-3xl font-semibold text-white">{config.role}</h1>
-        </div>
-        <div className="flex flex-wrap gap-3">
-          <span className="rounded-full border border-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-slate-300">
-            {config.interviewType}
-          </span>
-          <span className="rounded-full border border-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-slate-300">
-            {config.difficulty}
-          </span>
-        </div>
+    <section className="mx-auto max-w-5xl space-y-6 px-4 py-8 md:px-6 md:py-10">
+      <div className="space-y-2">
+        <div className="eyebrow">?? QUEST IN PROGRESS ??</div>
+        <h1 className="pixel-heading text-[16px] leading-8 text-white md:text-[20px]">{config.role}</h1>
       </div>
 
       <ProgressBar
         current={currentIndex + 1}
         total={questions.length}
         countdown={{ remaining: remainingTime, total: QUESTION_SECONDS }}
+        role={config.role}
+        interviewType={config.interviewType}
       />
 
       <QuestionCard question={currentQuestion} index={currentIndex} />
-      <AnswerInput
-        value={answer}
-        onChange={setAnswer}
-        onSubmit={handleSubmit}
-        onSkip={handleSkip}
-        disabled={loading}
-      />
+      <AnswerInput value={answer} onChange={setAnswer} onSubmit={handleSubmit} onSkip={handleSkip} disabled={loading} />
 
-      {loading ? <LoadingDots label={retrying ? "Retrying after a parsing issue..." : "Analyzing your answer..."} /> : null}
+      {loading ? <LoadingDots label={retrying ? "Retrying the quest parser..." : "Analyzing your answer..."} /> : null}
       {feedback ? <FeedbackCard feedback={feedback} /> : null}
 
       {feedback ? (
         <div className="flex flex-wrap justify-between gap-3">
-          <button type="button" onClick={restart} className="ghost-button">
+          <button type="button" onClick={restart} className="btn-ghost">
             <RotateCcw className="h-4 w-4" />
-            Start over
+            Reset Quest
           </button>
-          <button type="button" onClick={goToNext} className="primary-button">
-            {currentIndex === questions.length - 1 ? "See Full Results" : "Next Question"}
+          <button type="button" onClick={goToNext} className="btn-secondary">
+            {currentIndex === questions.length - 1 ? "?? View Battle Report" : "Next Round ?"}
           </button>
         </div>
       ) : null}
 
       {error && !loading ? (
-        <div className="rounded-2xl border border-rose-400/20 bg-rose-400/10 px-4 py-3 text-sm text-rose-100">
+        <div className="game-card px-4 py-3 text-sm" style={{ borderColor: "var(--danger)", color: "var(--danger)" }}>
           {error}
         </div>
       ) : null}
@@ -319,3 +305,4 @@ function buildResponseRecord(question, answer, feedback) {
 }
 
 export default InterviewPage;
+

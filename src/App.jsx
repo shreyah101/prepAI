@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+﻿import { Navigate, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import HistoryPage from "./pages/HistoryPage";
@@ -8,7 +8,7 @@ import ResultsPage from "./pages/ResultsPage";
 
 function App() {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-50">
+    <div className="game-shell min-h-screen" style={{ background: "var(--bg-deep)", color: "var(--text-lavender)" }}>
       <div className="app-shell" />
       <Navbar />
       <main className="relative z-10">
@@ -46,3 +46,4 @@ function App() {
 }
 
 export default App;
+

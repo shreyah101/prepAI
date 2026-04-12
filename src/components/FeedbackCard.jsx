@@ -1,42 +1,34 @@
-import { useState } from "react";
-
-const verdictStyles = {
-  Excellent: "border-emerald-400/50 bg-emerald-400/10 text-emerald-200",
-  Good: "border-cyan-400/50 bg-cyan-400/10 text-cyan-200",
-  Average: "border-amber-400/50 bg-amber-400/10 text-amber-200",
-  "Needs Work": "border-rose-400/50 bg-rose-400/10 text-rose-200",
-};
+﻿import { useMemo, useState } from "react";
 
 function FeedbackCard({ feedback }) {
   const [showModelAnswer, setShowModelAnswer] = useState(false);
+  const rank = useMemo(() => rankFromFeedback(feedback), [feedback]);
+  const accentColor = rank.includes("S") || rank.includes("A") ? "var(--success)" : rank.includes("B") ? "var(--warning)" : "var(--danger)";
 
   return (
-    <div className="glass-panel animate-slide-up space-y-5 border-l-4 border-indigo-400 p-6 md:p-8">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <span
-          className={`rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] ${
-            verdictStyles[feedback.verdict] || verdictStyles.Good
-          }`}
-        >
-          {feedback.verdict}
-        </span>
-        <div className="text-lg font-semibold text-slate-50">{feedback.score}/10</div>
+    <div className="game-card feedback-slide space-y-5 p-6 md:p-8" style={{ borderLeft: `4px solid ${accentColor}` }}>
+      <div className="text-center">
+        <div className="rank-badge rank-pop mx-auto" style={{ color: accentColor }}>
+          {rank}
+        </div>
+        <div className="relative mt-5">
+          <div className="bubble-heading text-[28px] text-[var(--text-lavender)]">{feedback.score} / 10</div>
+          <div className="xp-float pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 pixel-heading text-[14px] text-[var(--pink-bright)]">
+            +{feedback.score * 10} XP
+          </div>
+        </div>
       </div>
 
-      <DetailBlock title="Strengths" content={feedback.strengths} />
-      <DetailBlock title="Improvements" content={feedback.improvements} />
-      <DetailBlock title="Tip" content={feedback.tip} />
+      <DetailBlock label="? Strengths" color="var(--success)" content={feedback.strengths} />
+      <DetailBlock label="?? Improve" color="var(--warning)" content={feedback.improvements} />
+      <DetailBlock label="?? Tip" color="var(--text-muted)" content={feedback.tip} />
 
-      <button
-        type="button"
-        onClick={() => setShowModelAnswer((value) => !value)}
-        className="text-sm font-medium text-indigo-200 transition hover:text-indigo-100"
-      >
-        {showModelAnswer ? "Hide model answer" : "Show model answer"}
+      <button type="button" onClick={() => setShowModelAnswer((value) => !value)} className="btn-ghost w-full justify-center">
+        {showModelAnswer ? "Hide Model Answer" : "?? Model Answer"}
       </button>
 
       {showModelAnswer ? (
-        <div className="rounded-2xl border border-white/10 bg-slate-950/60 p-4 text-sm leading-7 text-slate-300">
+        <div className="rounded-[10px] border-2 p-4 text-sm leading-7" style={{ borderColor: "var(--purple-muted)", background: "var(--bg-deep)" }}>
           {feedback.model_answer}
         </div>
       ) : null}
@@ -44,13 +36,21 @@ function FeedbackCard({ feedback }) {
   );
 }
 
-function DetailBlock({ title, content }) {
+function DetailBlock({ label, color, content }) {
   return (
-    <div className="space-y-1">
-      <div className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">{title}</div>
-      <p className="text-sm leading-7 text-slate-300">{content}</p>
+    <div className="rounded-[10px] border p-4" style={{ borderColor: "var(--purple-muted)", background: "rgba(255,255,255,0.02)" }}>
+      <div className="bubble-heading text-[13px]" style={{ color }}>{label}</div>
+      <p className="mt-2 text-sm leading-7 text-[var(--text-muted)]">{content}</p>
     </div>
   );
 }
 
+function rankFromFeedback(feedback) {
+  if (feedback.verdict === "Excellent") return "S Rank ??";
+  if (feedback.verdict === "Good") return "A Rank ?";
+  if (feedback.verdict === "Average") return "B Rank";
+  return "C Rank";
+}
+
 export default FeedbackCard;
+

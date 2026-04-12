@@ -1,13 +1,13 @@
-function LoadingDots({ label = "Analyzing your answer..." }) {
+﻿function LoadingDots({ label = "Analyzing your answer..." }) {
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-indigo-400/20 bg-slate-900/60 px-4 py-3 text-sm text-slate-200">
-      <span>{label}</span>
-      <div className="flex gap-1">
+    <div className="game-card flex items-center justify-between gap-4 px-4 py-3 text-sm text-[var(--text-muted)]">
+      <span className="bubble-heading text-[14px]">{label}</span>
+      <div className="flex gap-2">
         {[0, 1, 2].map((index) => (
           <span
             key={index}
-            className="h-2 w-2 animate-pulse rounded-full bg-indigo-300"
-            style={{ animationDelay: `${index * 120}ms` }}
+            className="h-2 w-2 rounded-sm bg-[var(--pink-bright)] animate-pulse"
+            style={{ animationDelay: `${index * 140}ms` }}
           />
         ))}
       </div>
@@ -16,3 +16,4 @@ function LoadingDots({ label = "Analyzing your answer..." }) {
 }
 
 export default LoadingDots;
+

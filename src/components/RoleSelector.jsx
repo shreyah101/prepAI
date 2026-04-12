@@ -1,102 +1,118 @@
-import {
-  BarChart2,
-  Brain,
-  Briefcase,
-  Cloud,
-  Code2,
-  Layers,
-  PenTool,
-  Server,
-} from "lucide-react";
-
-const roles = [
-  { label: "Frontend Developer", icon: Code2 },
-  { label: "Backend Developer", icon: Server },
-  { label: "Full-Stack Developer", icon: Layers },
-  { label: "Data Analyst", icon: BarChart2 },
-  { label: "UI/UX Designer", icon: PenTool },
-  { label: "Product Manager", icon: Briefcase },
-  { label: "DevOps Engineer", icon: Cloud },
-  { label: "Machine Learning Engineer", icon: Brain },
+﻿const roles = [
+  { label: "Frontend Developer", emoji: "??" },
+  { label: "Backend Developer", emoji: "???" },
+  { label: "Full-Stack Developer", emoji: "??" },
+  { label: "Data Analyst", emoji: "??" },
+  { label: "UI/UX Designer", emoji: "??" },
+  { label: "Product Manager", emoji: "???" },
+  { label: "DevOps Engineer", emoji: "??" },
+  { label: "Machine Learning Engineer", emoji: "??" },
 ];
 
 const interviewTypes = ["Technical", "Behavioral", "Mixed"];
-const difficulties = ["Easy", "Medium", "Hard"];
+const difficulties = [
+  { label: "Easy", display: "? Rookie", color: "var(--success)" },
+  { label: "Medium", display: "?? Warrior", color: "var(--warning)" },
+  { label: "Hard", display: "?? Legend", color: "var(--danger)" },
+];
 const questionCounts = [3, 5, 10];
 
 function RoleSelector({ config, onChange, onStart, loading }) {
   return (
-    <div className="mx-auto max-w-5xl space-y-8">
-      <div className="space-y-3 text-center">
-        <div className="eyebrow">Interview setup</div>
-        <h1 className="text-4xl font-semibold tracking-tight text-white md:text-5xl">
-          What are you preparing for?
+    <div className="mx-auto max-w-6xl space-y-8">
+      <div className="text-center">
+        <div className="eyebrow">? QUEST PREP SCREEN ?</div>
+        <h1 className="pixel-heading mt-5 text-[18px] leading-[1.8] text-white md:text-[24px]">
+          Pick Your Class
+          <br />
+          And Start The Run
         </h1>
-        <p className="mx-auto max-w-2xl text-base leading-7 text-slate-300">
-          Pick a role, choose the interview style, and generate a practice loop that feels close to the real thing.
+        <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-[var(--text-muted)]">
+          Choose your job class, set the quest type, and launch a mock interview that feels like a boss battle with feedback.
         </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {roles.map(({ label, icon: Icon }) => {
-          const selected = config.role === label;
-          return (
-            <button
-              key={label}
-              type="button"
-              onClick={() => onChange("role", label)}
-              className={`role-card ${selected ? "role-card-active" : ""}`}
-            >
-              <Icon className="h-6 w-6" />
-              <span>{label}</span>
-            </button>
-          );
-        })}
+      <div className="space-y-3">
+        <div className="section-label">? Choose Your Class</div>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {roles.map(({ label, emoji }) => {
+            const selected = config.role === label;
+            return (
+              <button
+                key={label}
+                type="button"
+                onClick={() => onChange("role", label)}
+                className={`game-card p-4 text-center hover:scale-[1.04] ${selected ? "game-card-selected" : ""}`}
+              >
+                <span className="mb-3 block text-[32px]">{emoji}</span>
+                <span className="bubble-heading text-[13px] text-[var(--text-lavender)]">{label}</span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
         <OptionGroup
-          label="Interview type"
+          label="? Quest Type"
           options={interviewTypes}
           value={config.interviewType}
           onSelect={(value) => onChange("interviewType", value)}
         />
-        <OptionGroup
-          label="Difficulty"
-          options={difficulties}
-          value={config.difficulty}
-          onSelect={(value) => onChange("difficulty", value)}
-        />
-        <div className="glass-panel p-5">
-          <label className="mb-4 block text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
-            Questions
-          </label>
-          <input
-            type="range"
-            min="0"
-            max={questionCounts.length - 1}
-            value={questionCounts.indexOf(config.count)}
-            onChange={(event) => onChange("count", questionCounts[Number(event.target.value)])}
-            className="w-full accent-indigo-400"
-          />
-          <div className="mt-4 flex items-center justify-between text-sm text-slate-300">
-            {questionCounts.map((count) => (
-              <span key={count} className={config.count === count ? "text-white" : ""}>
-                {count}
-              </span>
-            ))}
+
+        <div className="game-card p-5">
+          <div className="section-label mb-4">? Difficulty</div>
+          <div className="flex flex-wrap gap-3">
+            {difficulties.map((difficulty) => {
+              const selected = config.difficulty === difficulty.label;
+              return (
+                <button
+                  key={difficulty.label}
+                  type="button"
+                  onClick={() => onChange("difficulty", difficulty.label)}
+                  className="rounded-[10px] border-2 px-4 py-3 text-sm transition"
+                  style={{
+                    borderColor: selected ? difficulty.color : "var(--purple-muted)",
+                    color: selected ? difficulty.color : "var(--text-dim)",
+                    background: selected ? "rgba(255,255,255,0.03)" : "transparent",
+                    boxShadow: selected && difficulty.label === "Hard" ? "0 0 14px rgba(248, 113, 113, 0.25)" : "none",
+                  }}
+                >
+                  <span className="bubble-heading">{difficulty.display}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="game-card p-5">
+          <div className="section-label mb-4">? Rounds</div>
+          <div className="flex flex-wrap gap-3">
+            {questionCounts.map((count) => {
+              const selected = config.count === count;
+              return (
+                <button
+                  key={count}
+                  type="button"
+                  onClick={() => onChange("count", count)}
+                  className="rounded-[10px] border-2 px-4 py-3 text-sm transition"
+                  style={{
+                    borderColor: selected ? "var(--purple-bright)" : "var(--purple-muted)",
+                    background: selected ? "var(--purple-main)" : "transparent",
+                    color: selected ? "#fff" : "var(--text-dim)",
+                  }}
+                >
+                  <span className="bubble-heading">{count} Rounds</span>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
 
       <div className="flex justify-center">
-        <button
-          type="button"
-          disabled={!config.role || loading}
-          onClick={onStart}
-          className="primary-button w-full max-w-xs justify-center"
-        >
-          {loading ? "Generating questions..." : "Start Interview"}
+        <button type="button" disabled={!config.role || loading} onClick={onStart} className="btn-primary w-full max-w-md justify-center">
+          {loading ? "Generating Quest..." : "? Start Quest"}
         </button>
       </div>
     </div>
@@ -105,19 +121,20 @@ function RoleSelector({ config, onChange, onStart, loading }) {
 
 function OptionGroup({ label, options, value, onSelect }) {
   return (
-    <div className="glass-panel p-5">
-      <div className="mb-4 text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">{label}</div>
+    <div className="game-card p-5">
+      <div className="section-label mb-4">{label}</div>
       <div className="flex flex-wrap gap-3">
         {options.map((option) => (
           <button
             key={option}
             type="button"
             onClick={() => onSelect(option)}
-            className={`rounded-full border px-4 py-2 text-sm transition ${
-              value === option
-                ? "border-indigo-300 bg-indigo-400/15 text-indigo-100"
-                : "border-white/10 bg-white/5 text-slate-300 hover:border-white/20"
-            }`}
+            className="rounded-full border-2 px-4 py-2 text-sm transition bubble-heading"
+            style={{
+              borderColor: value === option ? "var(--purple-bright)" : "var(--purple-muted)",
+              background: value === option ? "var(--purple-main)" : "transparent",
+              color: value === option ? "#fff" : "var(--text-dim)",
+            }}
           >
             {option}
           </button>
@@ -128,3 +145,4 @@ function OptionGroup({ label, options, value, onSelect }) {
 }
 
 export default RoleSelector;
+

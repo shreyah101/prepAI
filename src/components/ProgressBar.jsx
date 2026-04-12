@@ -1,31 +1,24 @@
-function ProgressBar({ current, total, countdown }) {
+﻿function ProgressBar({ current, total, countdown, role, interviewType }) {
   const progress = total ? (current / total) * 100 : 0;
-  const timerWidth = countdown ? `${(countdown.remaining / countdown.total) * 100}%` : "100%";
+  const timerDanger = countdown && countdown.remaining < 60;
 
   return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.3em] text-slate-400">
-        <span>
-          Question {current} of {total}
-        </span>
-        {countdown ? <span>{formatTime(countdown.remaining)}</span> : null}
+    <div className="game-card grid gap-4 px-4 py-4 md:grid-cols-[1fr_1.2fr_1fr] md:items-center md:px-5">
+      <div className="flex flex-wrap gap-2">
+        {role ? <span className="hud-pill hud-pill-pink">?? {role}</span> : null}
+        {interviewType ? <span className="hud-pill hud-pill-purple">?? {interviewType}</span> : null}
       </div>
 
-      <div className="h-2 overflow-hidden rounded-full bg-white/10">
-        <div
-          className="h-full rounded-full bg-gradient-to-r from-indigo-400 via-violet-400 to-cyan-300 transition-all duration-500"
-          style={{ width: `${progress}%` }}
-        />
-      </div>
-
-      {countdown ? (
-        <div className="h-1 overflow-hidden rounded-full bg-white/5">
-          <div
-            className="h-full rounded-full bg-amber-400/90 transition-all duration-1000"
-            style={{ width: timerWidth }}
-          />
+      <div className="space-y-2 text-center">
+        <div className="pixel-heading text-[10px] text-white">ROUND {current} / {total}</div>
+        <div className="progress-track">
+          <div className="progress-fill" style={{ width: `${progress}%` }} />
         </div>
-      ) : null}
+      </div>
+
+      <div className={`text-right pixel-heading text-[14px] ${timerDanger ? "timer-danger" : ""}`} style={{ color: timerDanger ? "var(--danger)" : "var(--success)" }}>
+        {countdown ? formatTime(countdown.remaining) : "3:00"}
+      </div>
     </div>
   );
 }
@@ -37,3 +30,4 @@ function formatTime(value) {
 }
 
 export default ProgressBar;
+
