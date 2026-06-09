@@ -1,4 +1,4 @@
-﻿import { X } from "lucide-react";
+import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import SessionHistory from "../components/SessionHistory";
@@ -49,7 +49,7 @@ function HistoryPage() {
   return (
     <section className="mx-auto max-w-6xl space-y-8 px-4 py-8 md:px-6 md:py-10">
       <div className="space-y-3">
-        <div className="pixel-heading text-[18px] leading-8 text-white">?? QUEST LOG</div>
+        <div className="pixel-heading text-[18px] leading-8 text-white">QUEST LOG</div>
         <p className="text-sm text-[var(--text-muted)]">Your completed adventures.</p>
       </div>
 

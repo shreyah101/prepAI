@@ -46,15 +46,17 @@ export async function getSessions(uid) {
   if (firebaseEnabled && db && uid !== "demo-user") {
     const q = query(
       collection(db, "sessions"),
-      where("uid", "==", uid),
-      orderBy("timestamp", "desc"),
+      where("uid", "==", uid)
     );
     const snapshot = await getDocs(q);
-    return snapshot.docs.map((item) => ({
+    const fetched = snapshot.docs.map((item) => ({
       id: item.id,
       ...item.data(),
       timestamp: item.data().timestamp?.toDate?.()?.toISOString?.() || new Date().toISOString(),
     }));
+    
+    // Sort locally to avoid Firebase index requirement
+    return fetched.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
   }
 
   return readLocalSessions().filter((session) => session.uid === uid);

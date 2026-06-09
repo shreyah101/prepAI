@@ -1,4 +1,5 @@
 import {
+  getRedirectResult,
   onAuthStateChanged,
   signInWithPopup,
   signOut as firebaseSignOut,
@@ -36,6 +37,19 @@ export function AuthProvider({ children }) {
       return undefined;
     }
 
+    // Process redirect result if returning from Google sign-in
+    getRedirectResult(auth)
+      .then((result) => {
+        if (result?.user) {
+          toast.success("Successfully signed in!");
+        }
+      })
+      .catch((error) => {
+        console.error("Redirect auth error:", error);
+        setAuthError(error.message);
+        toast.error("Sign-in failed. Please try again.");
+      });
+
     const unsubscribe = onAuthStateChanged(
       auth,
       (nextUser) => {
@@ -43,6 +57,7 @@ export function AuthProvider({ children }) {
         setLoading(false);
       },
       (error) => {
+        console.error("Auth state error:", error);
         setAuthError(error.message);
         setLoading(false);
       },
@@ -63,10 +78,9 @@ export function AuthProvider({ children }) {
     }
 
     try {
-      const result = await signInWithPopup(auth, provider);
-      toast.success(`Welcome back, ${result.user.displayName?.split(" ")[0] || "there"}`);
-      return result.user;
+      await signInWithPopup(auth, provider);
     } catch (error) {
+      console.error("Sign in error:", error);
       const message = error.message || "Unable to sign in right now.";
       setAuthError(message);
       toast.error("Sign-in failed");

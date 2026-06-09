@@ -1,4 +1,4 @@
-﻿import { AlertCircle, RotateCcw } from "lucide-react";
+import { AlertCircle, RotateCcw } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -251,11 +251,6 @@ function InterviewPage() {
 
   return (
     <section className="mx-auto max-w-5xl space-y-6 px-4 py-8 md:px-6 md:py-10">
-      <div className="space-y-2">
-        <div className="eyebrow">?? QUEST IN PROGRESS ??</div>
-        <h1 className="pixel-heading text-[16px] leading-8 text-white md:text-[20px]">{config.role}</h1>
-      </div>
-
       <ProgressBar
         current={currentIndex + 1}
         total={questions.length}
@@ -264,8 +259,18 @@ function InterviewPage() {
         interviewType={config.interviewType}
       />
 
-      <QuestionCard question={currentQuestion} index={currentIndex} />
-      <AnswerInput value={answer} onChange={setAnswer} onSubmit={handleSubmit} onSkip={handleSkip} disabled={loading} />
+      <div className="terminal-window mt-8 shadow-[0_0_30px_rgba(168,85,247,0.15)]">
+        <div className="terminal-header">
+          <div className="flex gap-2">
+            <div className="mac-dot red shadow-[0_0_8px_#ff5f56]"></div>
+            <div className="mac-dot yellow shadow-[0_0_8px_#ffbd2e]"></div>
+            <div className="mac-dot green shadow-[0_0_8px_#27c93f]"></div>
+          </div>
+          <div className="terminal-title">TERMINAL // MEETING</div>
+        </div>
+        <QuestionCard question={currentQuestion} index={currentIndex} />
+        <AnswerInput value={answer} onChange={setAnswer} onSubmit={handleSubmit} onSkip={handleSkip} disabled={loading} />
+      </div>
 
       {loading ? <LoadingDots label={retrying ? "Retrying the quest parser..." : "Analyzing your answer..."} /> : null}
       {feedback ? <FeedbackCard feedback={feedback} /> : null}
@@ -277,7 +282,7 @@ function InterviewPage() {
             Reset Quest
           </button>
           <button type="button" onClick={goToNext} className="btn-secondary">
-            {currentIndex === questions.length - 1 ? "?? View Battle Report" : "Next Round ?"}
+            {currentIndex === questions.length - 1 ? "View Battle Report" : "Next Round"}
           </button>
         </div>
       ) : null}

@@ -1,4 +1,4 @@
-﻿import { ChevronDown, RotateCcw, Trophy } from "lucide-react";
+import { ChevronDown, RotateCcw, Trophy } from "lucide-react";
 import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -43,7 +43,7 @@ function ResultsPage() {
           <h1 className="pixel-heading text-[14px] leading-7 text-white">No battle report yet</h1>
           <p className="mt-3 text-sm text-[var(--text-muted)]">Finish a quest first, then your report appears here.</p>
           <button type="button" onClick={() => navigate("/interview")} className="btn-primary mx-auto mt-6">
-            ? Start Quest
+            ▶ Start Quest
           </button>
         </div>
       </section>
@@ -85,7 +85,7 @@ function ResultsPage() {
           <div className="flex flex-col items-center justify-center gap-5 text-center">
             <div className="pixel-heading text-[20px] leading-8 text-white">BATTLE REPORT</div>
             <div className="flex flex-wrap justify-center gap-2">
-              <span className="hud-pill hud-pill-pink">?? {result.role}</span>
+              <span className="hud-pill hud-pill-pink">{result.role}</span>
               <span className="hud-pill">{displayDifficulty(result.difficulty)}</span>
             </div>
             <div className="text-[13px] text-[var(--text-dim)]">{new Date().toLocaleString()}</div>
@@ -103,13 +103,13 @@ function ResultsPage() {
               </div>
               <div className="space-y-2 text-sm leading-7 text-[var(--text-muted)]">
                 {summary?.strengths.map((item, index) => (
-                  <p key={`${item}-${index}`}>? {item}.</p>
+                  <p key={`${item}-${index}`}>▶ {item}.</p>
                 ))}
               </div>
             </div>
 
             <div className="game-card p-5">
-              <div className="bubble-heading text-[18px] text-white">?? Level Up Areas</div>
+              <div className="bubble-heading text-[18px] text-white">Level Up Areas</div>
               <div className="mt-3 space-y-2 text-sm leading-7 text-[var(--text-muted)]">
                 {summary?.weaknesses.map((item, index) => (
                   <p key={`${item}-${index}`}>• {item}.</p>
@@ -123,10 +123,10 @@ function ResultsPage() {
               </button>
               <button type="button" onClick={() => navigate("/interview")} className="btn-secondary">
                 <RotateCcw className="h-4 w-4" />
-                ?? Retry Quest
+                Retry Quest
               </button>
               <button type="button" onClick={() => navigate("/interview", { state: { reset: true } })} className="btn-ghost">
-                ?? Switch Class
+                Switch Class
               </button>
             </div>
           </div>
@@ -134,7 +134,7 @@ function ResultsPage() {
       </div>
 
       <div className="space-y-4">
-        <div className="section-label">? Round Breakdown</div>
+        <div className="section-label">▶ Round Breakdown</div>
         {result.questions.map((item, index) => {
           const open = expanded === item.id;
           const tone = toneForScore((item.score / 10) * 100);
@@ -186,8 +186,8 @@ function ResultRow({ label, value }) {
 }
 
 function getRank(score) {
-  if (score >= 80) return "S Rank ??";
-  if (score >= 60) return "A Rank ?";
+  if (score >= 80) return "S Rank";
+  if (score >= 60) return "A Rank";
   if (score >= 40) return "B Rank";
   return "C Rank";
 }
@@ -199,9 +199,9 @@ function toneForScore(score) {
 }
 
 function displayDifficulty(difficulty) {
-  if (difficulty === "Easy") return "? Rookie";
-  if (difficulty === "Medium") return "?? Warrior";
-  if (difficulty === "Hard") return "?? Legend";
+  if (difficulty === "Easy") return "Rookie";
+  if (difficulty === "Medium") return "Warrior";
+  if (difficulty === "Hard") return "Legend";
   return difficulty;
 }
 

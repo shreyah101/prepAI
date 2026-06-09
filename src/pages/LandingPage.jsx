@@ -1,140 +1,141 @@
-﻿import { ArrowRight } from "lucide-react";
-import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Shield, Sparkles, Target, Zap } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
 const features = [
-  { emoji: "??", title: "10+ Job Classes", text: "Choose your role and face tailored questions." },
-  { emoji: "??", title: "AI Battle Scoring", text: "Get instant XP, rank, and improvement tips." },
-  { emoji: "??", title: "Track Your XP", text: "Build streaks, earn gems, and level up your profile." },
-];
-
-const stars = [
-  { left: "8%", top: "14%" },
-  { left: "16%", top: "24%" },
-  { left: "29%", top: "12%" },
-  { left: "42%", top: "18%" },
-  { left: "57%", top: "10%" },
-  { left: "66%", top: "22%" },
-  { left: "74%", top: "15%" },
-  { left: "82%", top: "8%" },
-  { left: "90%", top: "26%" },
-];
-
-const sparkles = [
-  { left: "22%", bottom: "112px", delay: "0s" },
-  { left: "34%", bottom: "120px", delay: "0.6s" },
-  { left: "53%", bottom: "116px", delay: "1.1s" },
-  { left: "70%", bottom: "118px", delay: "1.7s" },
-  { left: "81%", bottom: "112px", delay: "2.2s" },
+  {
+    icon: <Target className="h-8 w-8 text-[var(--neon-cyan)]" />,
+    title: "10+ JOB CLASSES",
+    desc: "Choose your role and face tailored questions.",
+    color: "var(--neon-cyan)",
+  },
+  {
+    icon: <Zap className="h-8 w-8 text-[var(--neon-purple)]" />,
+    title: "AI BATTLE SCORING",
+    desc: "Get instant XP, rank, and improvement tips.",
+    color: "var(--neon-purple)",
+  },
+  {
+    icon: <Sparkles className="h-8 w-8 text-[var(--neon-pink)]" />,
+    title: "TRACK YOUR XP",
+    desc: "Build streaks, earn gems, and level up your profile.",
+    color: "var(--neon-pink)",
+  },
 ];
 
 function LandingPage() {
-  const { user, signIn, loading, authError, firebaseEnabled } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  useEffect(() => {
-    if (user) {
-      const target = location.state?.from?.pathname || "/interview";
-      navigate(target, { replace: true });
-    }
-  }, [location.state, navigate, user]);
+  const { user, signIn, isDemo } = useAuth();
 
   return (
-    <section className="game-shell mx-auto max-w-7xl space-y-10 px-4 py-8 md:px-6 md:py-10">
-      {!navigator.onLine ? (
-        <div className="game-card px-4 py-3 text-sm" style={{ borderColor: "var(--warning)", color: "var(--warning)" }}>
-          You appear to be offline.
+    <div className="flex min-h-[calc(100vh-64px)] flex-col">
+      <main className="flex-1">
+        <section className="relative overflow-hidden px-4 py-16 md:py-24">
+          <div className="mx-auto max-w-5xl text-center">
+            <div className="mb-8 flex justify-center">
+              <div className="eyebrow border-[var(--neon-cyan-dim)] text-[var(--neon-cyan)]">
+                <Shield className="h-4 w-4" />
+                CAREER SIMULATOR MODE
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-[var(--neon-cyan)]">
+                • INTERACTIVE SIMULATION •
+              </span>
+            </div>
+
+            <h1 className="hero-title drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+              PREP AI<span className="text-[var(--neon-purple)]">. EXE</span>
+            </h1>
+
+            <p className="mx-auto mt-8 max-w-2xl text-[14px] font-bold uppercase tracking-[0.1em] text-[var(--text-muted)]">
+              PRESS ENTER TO START MOCK INTERVIEW
+            </p>
+
+            <div className="mt-12 flex justify-center">
+              {user ? (
+                <Link to="/interview" state={{ reset: true }} className="btn-primary min-w-[200px]">
+                  ▶ START MOCK INTERVIEW
+                </Link>
+              ) : (
+                <button type="button" onClick={signIn} className="btn-primary min-w-[200px]">
+                  ▶ START MOCK INTERVIEW
+                </button>
+              )}
+            </div>
+
+            <div className="mt-8 flex justify-center gap-8 text-[11px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">
+              <span>• USE MOUSE TO NAVIGATE</span>
+              <span>• USE OF AI TO ANSWER QUESTIONS IS NOT RECOMMENDED</span>
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-6xl px-4 py-12 md:px-6 md:py-20">
+          <div className="grid gap-6 md:grid-cols-3">
+            {features.map((feature, idx) => (
+              <div
+                key={idx}
+                className="game-card p-8 text-center"
+              >
+                <div
+                  className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-[12px] bg-[var(--bg-surface)] border border-[var(--border-subtle)]"
+                  style={{ boxShadow: `0 0 20px ${feature.color}20` }}
+                >
+                  {feature.icon}
+                </div>
+                <h3 className="pixel-heading mb-3 text-[16px] text-white">
+                  {feature.title}
+                </h3>
+                <p className="text-[14px] leading-relaxed text-[var(--text-muted)]">
+                  {feature.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-5xl px-4 py-12 pb-24 md:px-6">
+          <div className="game-card flex flex-col items-center justify-center gap-8 p-10 md:flex-row md:justify-around">
+            <div className="text-center">
+              <div className="pixel-heading text-4xl text-[var(--neon-purple)]" style={{ textShadow: "0 0 15px rgba(168,85,247,0.4)" }}>
+                500+
+              </div>
+              <div className="mt-2 text-[12px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">
+                QUESTS PLAYED
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="pixel-heading text-4xl text-[var(--neon-cyan)]" style={{ textShadow: "0 0 15px rgba(6,182,212,0.4)" }}>
+                8
+              </div>
+              <div className="mt-2 text-[12px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">
+                JOB CLASSES
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="pixel-heading text-4xl text-[var(--neon-pink)]" style={{ textShadow: "0 0 15px rgba(244,63,94,0.4)" }}>
+                AI
+              </div>
+              <div className="mt-2 text-[12px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">
+                POWERED
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-16 text-center text-[12px] font-bold uppercase tracking-wider text-[var(--text-dim)]">
+            PREP AI - A MOCK INTERVIEW SIMULATOR
+          </div>
+        </section>
+      </main>
+
+      {isDemo ? (
+        <div className="fixed bottom-0 left-0 right-0 z-50 bg-[var(--neon-purple)] py-2 text-center text-[10px] font-bold uppercase tracking-widest text-black">
+          Demo mode is active until Firebase is wired in.
         </div>
       ) : null}
-
-      <div className="pixel-scene">
-        {stars.map((star, index) => (
-          <div key={`${star.left}-${star.top}`} className={`star ${index % 2 === 0 ? "twinkle" : ""}`} style={star} />
-        ))}
-
-        <div className="pixel-cloud" style={{ left: "10%", top: "16%", transform: "scale(1.4)" }} />
-        <div className="pixel-cloud" style={{ left: "58%", top: "20%", transform: "scale(1.1)" }} />
-        <div className="pixel-cloud" style={{ left: "78%", top: "12%", transform: "scale(0.8)" }} />
-
-        <div className="hill hill-left" />
-        <div className="hill hill-center" />
-        <div className="hill hill-right" />
-
-        <div className="pixel-tree" style={{ left: "8%" }} />
-        <div className="pixel-tree" style={{ left: "18%" }} />
-        <div className="pixel-tree" style={{ right: "18%" }} />
-        <div className="pixel-tree" style={{ right: "8%" }} />
-
-        {["12%", "20%", "28%", "37%", "48%", "59%", "68%", "76%", "85%"].map((left, index) => (
-          <div key={left} className="pixel-flower" style={{ left, bottom: index % 2 === 0 ? "72px" : "76px" }} />
-        ))}
-
-        {sparkles.map((sparkle) => (
-          <div key={sparkle.left} className="sparkle" style={{ left: sparkle.left, bottom: sparkle.bottom, animationDelay: sparkle.delay }} />
-        ))}
-
-        <div className="pixel-scene-grass" />
-        <div className="pixel-scene-ground" />
-
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center">
-          <div className="eyebrow">? START YOUR INTERVIEW ADVENTURE ?</div>
-          <h1 className="pixel-heading mt-6 text-[18px] leading-[1.7] text-white md:text-[28px]" style={{ textShadow: "3px 3px 0 var(--purple-dark)" }}>
-            Ace Every
-            <br />
-            <span style={{ color: "var(--pink-bright)" }}>Interview</span>
-          </h1>
-          <p className="mt-4 max-w-xl text-sm text-[var(--text-muted)] md:text-[14px]">
-            Level up your career, one quest at a time.
-          </p>
-          <button
-            type="button"
-            onClick={() => (user ? navigate("/interview") : signIn())}
-            disabled={loading}
-            className="btn-primary mt-6"
-          >
-            {loading ? "Loading..." : "? Enter Game"}
-            <ArrowRight className="h-4 w-4" />
-          </button>
-          <p className="mt-4 text-xs text-[var(--text-dim)]">
-            {firebaseEnabled ? "Google sign-in is powered up." : "Demo mode is active until Firebase is wired in."}
-          </p>
-          {authError ? <p className="mt-2 text-xs text-[var(--danger)]">{authError}</p> : null}
-        </div>
-      </div>
-
-      <div className="grid gap-5 md:grid-cols-3">
-        {features.map((feature, index) => (
-          <div
-            key={feature.title}
-            className="game-card game-card-featured p-6 text-center"
-            style={{ borderTopColor: index === 0 ? "var(--purple-bright)" : index === 1 ? "var(--pink-main)" : "var(--gold)" }}
-          >
-            <div className="mb-4 text-[40px]">{feature.emoji}</div>
-            <h2 className="bubble-heading text-[18px] text-[var(--text-lavender)]">{feature.title}</h2>
-            <p className="mt-3 text-[13px] leading-6 text-[var(--text-muted)]">{feature.text}</p>
-          </div>
-        ))}
-      </div>
-
-      <div className="game-card grid gap-4 px-5 py-5 md:grid-cols-3" style={{ background: "var(--bg-surface)" }}>
-        <StatCard value="500+" label="Quests Played" />
-        <StatCard value="8" label="Job Classes" />
-        <StatCard value="AI" label="Powered" />
-      </div>
-    </section>
-  );
-}
-
-function StatCard({ value, label }) {
-  return (
-    <div className="text-center md:border-r last:md:border-r-0" style={{ borderColor: "var(--purple-muted)" }}>
-      <div className="pixel-heading text-[20px] text-[var(--pink-bright)]">{value}</div>
-      <div className="mt-2 text-[12px] text-[var(--text-dim)]">{label}</div>
     </div>
   );
 }
 
 export default LandingPage;
-

@@ -1,4 +1,4 @@
-﻿import { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 function FeedbackCard({ feedback }) {
   const [showModelAnswer, setShowModelAnswer] = useState(false);
@@ -19,12 +19,12 @@ function FeedbackCard({ feedback }) {
         </div>
       </div>
 
-      <DetailBlock label="? Strengths" color="var(--success)" content={feedback.strengths} />
-      <DetailBlock label="?? Improve" color="var(--warning)" content={feedback.improvements} />
-      <DetailBlock label="?? Tip" color="var(--text-muted)" content={feedback.tip} />
+      <DetailBlock label="▶ Strengths" color="var(--success)" content={feedback.strengths} />
+      <DetailBlock label="Improve" color="var(--warning)" content={feedback.improvements} />
+      <DetailBlock label="Tip" color="var(--text-muted)" content={feedback.tip} />
 
       <button type="button" onClick={() => setShowModelAnswer((value) => !value)} className="btn-ghost w-full justify-center">
-        {showModelAnswer ? "Hide Model Answer" : "?? Model Answer"}
+        {showModelAnswer ? "Hide Model Answer" : "Model Answer"}
       </button>
 
       {showModelAnswer ? (
@@ -46,8 +46,8 @@ function DetailBlock({ label, color, content }) {
 }
 
 function rankFromFeedback(feedback) {
-  if (feedback.verdict === "Excellent") return "S Rank ??";
-  if (feedback.verdict === "Good") return "A Rank ?";
+  if (feedback.verdict === "Excellent") return "S Rank";
+  if (feedback.verdict === "Good") return "A Rank";
   if (feedback.verdict === "Average") return "B Rank";
   return "C Rank";
 }

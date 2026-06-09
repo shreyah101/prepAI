@@ -1,4 +1,4 @@
-﻿function SessionHistory({ sessions, onView, onDelete }) {
+function SessionHistory({ sessions, onView, onDelete }) {
   if (!sessions.length) {
     return (
       <div className="game-card flex min-h-[320px] flex-col items-center justify-center gap-4 p-10 text-center">
@@ -24,13 +24,13 @@
           <article key={session.id} className="game-card space-y-5 p-6">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div className="flex flex-wrap gap-2">
-                <span className="hud-pill hud-pill-pink">?? {session.role}</span>
+                <span className="hud-pill hud-pill-pink">{session.role}</span>
                 <span className="hud-pill" style={{ color: tone }}>
                   {displayDifficulty(session.difficulty)}
                 </span>
               </div>
               <button type="button" onClick={() => onDelete(session.id)} className="text-sm text-[var(--text-dim)]">
-                ???
+                
               </button>
             </div>
 
@@ -50,7 +50,7 @@
             </div>
 
             <button type="button" onClick={() => onView(session)} className="btn-ghost w-full justify-center">
-              View Details ?
+              View Details ▶
             </button>
           </article>
         );
@@ -66,16 +66,16 @@ function toneForScore(score) {
 }
 
 function getRank(score) {
-  if (score >= 70) return "S Rank ??";
-  if (score >= 60) return "A Rank ?";
+  if (score >= 70) return "S Rank";
+  if (score >= 60) return "A Rank";
   if (score >= 40) return "B Rank";
   return "C Rank";
 }
 
 function displayDifficulty(difficulty) {
-  if (difficulty === "Easy") return "? Rookie";
-  if (difficulty === "Medium") return "?? Warrior";
-  if (difficulty === "Hard") return "?? Legend";
+  if (difficulty === "Easy") return "Rookie";
+  if (difficulty === "Medium") return "Warrior";
+  if (difficulty === "Hard") return "Legend";
   return difficulty;
 }
 
