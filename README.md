@@ -1,69 +1,39 @@
-<div align="center">
+# PrepAI
 
-<img src="https://img.shields.io/badge/PrepAI-Mock%20Interview%20Simulator-7c3aed?style=for-the-badge&logo=react&logoColor=white" alt="PrepAI" />
+PrepAI is an AI-powered mock interview simulator designed for candidates and developers preparing for technical and behavioral interviews. The platform dynamically generates role-specific interview questions, performs multi-axis scoring on submissions, provides benchmark model answers, and tracks user progress through a gamified XP system.
 
-<br/>
-<br/>
-
-```
- ____                    _    ___
-|  _ \ _ __ ___ _ __   / \  |_ _|
-| |_) | '__/ _ \ '_ \ / _ \  | |
-|  __/| | |  __/ |_) / ___ \ | |
-|_|   |_|  \___| .__/_/   \_\___|
-                |_|
-```
-
-### Practice Interviews. Earn XP. Land the Job.
-
-**An AI-powered mock interview simulator with role-specific question generation,  
-multi-axis answer scoring, and gamified session tracking.**
-
-<br/>
-
-[![React](https://img.shields.io/badge/React%2018-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
-[![JWT](https://img.shields.io/badge/JWT-Session%20Auth-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)](https://jwt.io/)
-[![Groq](https://img.shields.io/badge/Groq%20LLaMA%203.3%2070B-f55036?style=for-the-badge&logo=meta&logoColor=white)](https://groq.com/)
-[![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-Neo--Brutalist-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-
-</div>
+Built by **Shreya Sundli**.
 
 ---
 
-## What is PrepAI?
+## Overview
 
-PrepAI is a **Neo-Brutalist mock interview simulator** built for students and career job seekers. Select a job role, choose your difficulty, and face AI-generated interview questions powered by Groq LLaMA 3.3 70B — then get **instant multi-dimensional feedback** on every answer. Track your XP, level up your profile, and build interview confidence one round at a time.
-
-> Built as a portfolio project by **Shreya Sundli**.  
+Technical interviews require structured communication, domain knowledge, and practical problem solving. PrepAI simulates real-world interview environments by generating tailored questions across 8 industry disciplines using Groq's high-speed LLaMA 3.3 70B model. Every submission is analyzed across key scoring criteria to give candidates actionable feedback before real interviews.
 
 ---
 
-## Features
+## Core Features
 
-| Feature | Description |
-|---|---|
-| **8+ Job Roles** | Frontend, Backend, Full-Stack, Data Analyst, ML Engineer, UI/UX, PM, DevOps |
-| **AI Question Generation** | Role-specific, difficulty-adjusted questions via Groq LLaMA 3.3 70B |
-| **Multi-Axis Scoring** | Answers scored on Relevance, Depth, Clarity, and Practical Examples |
-| **Model Benchmark Answers** | AI-generated ideal answer shown after each submission |
-| **Battle Reports** | Full session breakdown with S/A/B/C rank system and diagnostic audit |
-| **Quest Log** | Complete history of past sessions with slide-out inspection drawer |
-| **JWT Session Auth** | Client-side signed HMAC-SHA256 JWT session tokens |
-| **XP & Leveling** | Gamified progression system with gem and XP rewards |
-| **Neo-Brutalist UI** | High-contrast grid, solid black borders, and hard offset drop shadows |
+- **8 Target Job Disciplines**: Covers Frontend, Backend, Full-Stack, Machine Learning, DevOps, Data Analyst, UI/UX Designer, and Product Manager roles.
+- **Dynamic Question Generation**: Generates technical and STAR-method behavioral questions dynamically adjusted to selected difficulty levels (Junior, Mid, Senior).
+- **Multi-Axis Answer Scoring**: Evaluates each response across Relevance, Depth, Clarity, and Practical Examples.
+- **Model Benchmark Answers**: Provides recommended benchmark answers and communication tips after each round.
+- **Battle Reports**: Summarizes completed sessions with overall scores, performance ratings, and category breakdowns.
+- **Quest Log History**: Archives completed interview sessions with inspection drawers to review past answers and improvement tips.
+- **Client-Side JWT Authentication**: Secure HMAC-SHA256 session token management with local persistence.
+- **Gamified Progression**: Tracks candidate XP, gems, and level milestones as interview rounds are completed.
+- **Neo-Brutalist Interface**: High-contrast layout with bold typography, solid borders, and structured component cards.
 
 ---
 
 ## Tech Stack
 
-```
-Frontend          →  React 18 + Vite + Tailwind CSS + Lucide Icons
-AI / LLM          →  Groq API  (llama-3.3-70b-versatile)
-Authentication    →  Client-Side HMAC-SHA256 JWT Session Tokens
-Storage           →  Local / Browser Persistence & SessionStore
-Design System     →  Neo-Brutalism (Paper Grid, Solid Borders, Hard Shadows)
-Fonts             →  Plus Jakarta Sans + Space Grotesk + Space Mono + Inter
-```
+- **Frontend**: React 18, Vite, Tailwind CSS, Lucide React Icons
+- **AI Inference Engine**: Groq API (`llama-3.3-70b-versatile`)
+- **Authentication**: Client-side HMAC-SHA256 JWT sessions
+- **Storage & State**: Browser LocalStorage & SessionStorage
+- **Design System**: Neo-Brutalism (Paper Grid, Solid Borders, Offset Shadows)
+- **Deployment**: Vercel ready
 
 ---
 
@@ -71,80 +41,72 @@ Fonts             →  Plus Jakarta Sans + Space Grotesk + Space Mono + Inter
 
 ### Prerequisites
 
-- Node.js v18+
-- A [Groq API key](https://console.groq.com) (free tier available)
+- Node.js (v18 or higher)
+- npm or yarn
+- A Groq API Key (available at [console.groq.com](https://console.groq.com))
 
 ### Installation
 
-```bash
-# 1. Clone the repository
-git clone https://github.com/shreyasundli/prepai.git
-cd prepai
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/shreyah101/prepAI.git
+   cd prepAI
+   ```
 
-# 2. Install dependencies
-npm install
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-# 3. Set up environment variables
-cp .env.example .env
-# Fill in your Groq API key (see below)
+3. Create your environment configuration file:
+   ```bash
+   cp .env.example .env
+   ```
 
-# 4. Start the dev server
-npm run dev
-```
+4. Add your Groq API key to `.env`:
+   ```env
+   VITE_GROQ_API_KEY=your_groq_api_key_here
+   ```
 
-### Environment Variables
-
-Create a `.env` file in the root with your Groq API key:
-
-```env
-VITE_GROQ_API_KEY=your_groq_api_key_here
-```
-
-> Never commit your `.env` file. It's already in `.gitignore`.
+5. Start the local development server:
+   ```bash
+   npm run dev
+   ```
 
 ---
 
 ## Project Structure
 
 ```
-prepai/
+prepAI/
+├── public/               # Static assets and icons
 ├── src/
-│   ├── components/       # Reusable Neo-Brutalist UI components
-│   │   ├── Navbar.jsx
-│   │   ├── AuthModal.jsx
-│   │   ├── RoleSelector.jsx
-│   │   ├── QuestionCard.jsx
-│   │   ├── AnswerInput.jsx
-│   │   ├── FeedbackCard.jsx
-│   │   ├── ScoreGauge.jsx
-│   │   ├── ProgressBar.jsx
-│   │   ├── LoadingDots.jsx
-│   │   └── SessionHistory.jsx
-│   ├── pages/            # Route-level page components
-│   │   ├── LandingPage.jsx
-│   │   ├── InterviewPage.jsx
-│   │   ├── ResultsPage.jsx
-│   │   └── HistoryPage.jsx
-│   ├── context/          # JWT Auth Context
-│   │   └── AuthContext.jsx
-│   ├── hooks/            # Custom React hooks
-│   │   ├── useAuth.js
-│   │   └── useGroq.js
-│   ├── lib/              # Utilities & storage
-│   │   ├── jwt.js
-│   │   ├── groq.js
-│   │   ├── prompts.js
-│   │   └── sessionStore.js
-│   ├── App.jsx
-│   ├── main.jsx
-│   └── index.css
-├── index.html
-├── tailwind.config.js
-└── package.json
+│   ├── components/       # UI components (Navbar, RoleSelector, QuestionCard, AuthModal, etc.)
+│   ├── context/          # JWT Authentication Context and Session Provider
+│   ├── hooks/            # Custom React hooks (useAuth, useGroq)
+│   ├── lib/              # Core utilities (jwt.js, groq.js, prompts.js, sessionStore.js)
+│   ├── pages/            # Page views (LandingPage, InterviewPage, ResultsPage, HistoryPage)
+│   ├── App.jsx           # App routing and layout configuration
+│   ├── index.css         # Design system tokens and styling rules
+│   └── main.jsx          # Application entry point
+├── .env.example          # Environment variables template
+├── tailwind.config.js    # Tailwind CSS configuration
+├── vercel.json           # Vercel deployment configuration
+├── vite.config.js        # Vite configuration
+└── package.json          # Project dependencies and scripts
 ```
+
+---
+
+## Deployment on Vercel
+
+1. Import the repository into your Vercel account.
+2. Under **Project Settings** -> **Environment Variables**, add:
+   - `VITE_GROQ_API_KEY`: Your Groq API key
+3. Deploy the project. The included `vercel.json` ensures all client-side routes resolve properly.
 
 ---
 
 ## License
 
-MIT © **Shreya Sundli**
+MIT License - Copyright (c) Shreya Sundli
