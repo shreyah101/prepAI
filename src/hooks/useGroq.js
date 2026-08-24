@@ -5,16 +5,17 @@ export function useGroq() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const fetchFromGroq = async (messages, temperature = 0.7) => {
+  const fetchFromGroq = async (messages, temperature = 0.6) => {
     setLoading(true);
     setError("");
 
     try {
-      return await callGroq(messages, temperature);
+      const result = await callGroq(messages, temperature);
+      return result;
     } catch (err) {
-      const message = err.message || "Something went wrong while calling Groq.";
+      const message = err.message || "Something went wrong while calling Groq AI.";
       setError(message);
-      return null;
+      throw err;
     } finally {
       setLoading(false);
     }

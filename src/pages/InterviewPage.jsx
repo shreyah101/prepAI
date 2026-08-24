@@ -247,18 +247,17 @@ function InterviewPage() {
   };
 
   async function fetchWithRetry(request) {
-    let raw = await request();
-    if (raw) return raw;
-
-    setRetrying(true);
-    raw = await request();
-    setRetrying(false);
-
-    if (!raw) {
-      throw new Error("AI returned an invalid structure twice. Please try again.");
+    try {
+      return await request();
+    } catch (err) {
+      console.warn("First AI request attempt failed, retrying once...", err);
+      setRetrying(true);
+      try {
+        return await request();
+      } finally {
+        setRetrying(false);
+      }
     }
-
-    return raw;
   }
 
   if (stage === "setup") {
