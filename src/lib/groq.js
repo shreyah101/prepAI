@@ -1,13 +1,13 @@
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
 
-// Candidate models in priority order to guarantee high availability on all Groq tiers
+// Candidate models prioritized with current active Groq production models
 const CANDIDATE_MODELS = [
+  "openai/gpt-oss-120b",
+  "openai/gpt-oss-20b",
+  "qwen/qwen3.6-27b",
+  "gemma2-9b-it",
   "llama-3.3-70b-versatile",
-  "llama-3.1-70b-versatile",
   "llama-3.1-8b-instant",
-  "llama3-70b-8192",
-  "llama3-8b-8192",
-  "mixtral-8x7b-32768",
 ];
 
 export async function callGroq(messages, temperature = 0.6) {
@@ -42,12 +42,17 @@ export async function callGroq(messages, temperature = 0.6) {
         const errorData = await response.json().catch(() => null);
         const errMsg = errorData?.error?.message || `Status ${response.status}`;
 
-        // If the model does not exist or tier lacks access, try the next available candidate model
+        // If the model is decommissioned, deprecated, does not exist, or tier lacks access, try next model
         if (
           response.status === 404 ||
+          response.status === 400 ||
+          errMsg.toLowerCase().includes("decommissioned") ||
+          errMsg.toLowerCase().includes("no longer supported") ||
           errMsg.toLowerCase().includes("does not exist") ||
           errMsg.toLowerCase().includes("model_not_found") ||
-          errMsg.toLowerCase().includes("access")
+          errMsg.toLowerCase().includes("not have access") ||
+          errMsg.toLowerCase().includes("deprecat") ||
+          errMsg.toLowerCase().includes("invalid_model")
         ) {
           console.warn(`Groq model ${model} unavailable (${errMsg}). Trying next candidate...`);
           lastError = new Error(errMsg);
@@ -68,7 +73,7 @@ export async function callGroq(messages, temperature = 0.6) {
       }
     } catch (err) {
       lastError = err;
-      // If it's a rate limit or network abort, surface it immediately
+      // If it's a rate limit or missing API key, throw immediately
       if (err.message?.includes("rate limit") || err.message?.includes("VITE_GROQ_API_KEY")) {
         throw err;
       }
